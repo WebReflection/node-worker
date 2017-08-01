@@ -26,7 +26,7 @@ Every worker is a [sandboxed VM](https://nodejs.org/api/vm.html) and it runs on 
 var index = require('fs').readFileSync(__dirname + '/index.html');
 
 var http = require('http').createServer(handler);
-var nodeWorker = require('node-worker');
+var nodeWorker = require('@webreflection/node-worker');
 
 var app = nodeWorker(http);
 app.listen(process.env.PORT);
@@ -44,7 +44,7 @@ function handler(req, res) {
 var index = require('fs').readFileSync(__dirname + '/index.html');
 
 var express = require('express');
-var nodeWorker = require('node-worker');
+var nodeWorker = require('@webreflection/node-worker');
 
 var app = nodeWorker(express());
 app.get('/', handler);
