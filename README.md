@@ -7,7 +7,7 @@ Instead of having an [Electron](https://electron.atom.io/) like environment,
 this module make it possible to use NodeJS through the browser,
 using a [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) like mechanism.
 
-All workers file must be inside a `workers` directory within the application folder.
+All workers files must be inside a `workers` directory within the application folder.
 
 
 ### Basic Example
@@ -49,6 +49,7 @@ function handler(req, res) {
 }
 ```
 
+**Demo index.html**
 ```html
 <!doctype html>
 <!-- socket.io must be available before /node-worker.js -->

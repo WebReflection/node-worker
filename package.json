@@ -1,9 +1,11 @@
 {
-  "name": "node-worker",
+  "name": "@webreflection/node-worker",
   "version": "0.0.0",
-  "description": "",
+  "description": "Web Worker like API to drive NodeJS files",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "node server.js"
+  },
   "author": "Andrea Giammarchi",
   "license": "ISC",
   "devDependencies": {
@@ -13,5 +15,23 @@
   "dependencies": {
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WebReflection/node-worker.git"
+  },
+  "keywords": [
+    "nodejs",
+    "electron",
+    "web",
+    "worker",
+    "alternative"
+  ],
+  "bugs": {
+    "url": "https://github.com/WebReflection/node-worker/issues"
+  },
+  "homepage": "https://github.com/WebReflection/node-worker#readme"
 }
