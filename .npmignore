@@ -1,0 +1,5 @@
+node_modules/*
+test/*
+workers/*
+.gitignore
+package-lock.json

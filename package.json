@@ -1,0 +1,17 @@
+{
+  "name": "node-worker",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Andrea Giammarchi",
+  "license": "ISC",
+  "devDependencies": {
+    "consolemd": "^0.1.2",
+    "express": "^4.15.3"
+  },
+  "dependencies": {
+    "socket.io": "^2.0.3",
+    "socket.io-client": "^2.0.3"
+  }
+}

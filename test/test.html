@@ -1,0 +1,22 @@
+<!doctype html>
+<!-- order matters, include socket.io before node-worker -->
+<script src="/socket.io/socket.io.js"></script>
+<script src="/node-worker.js"></script>
+<!-- the test -->
+<script>
+// as global, you can open the console
+// and test yourself via
+// nw.postMessage('any serializable');
+var nw = new NodeWorker('echo.js');
+nw.postMessage({hello: "world"});
+nw.onmessage = function (event) {
+  console.log(event);
+};
+nw.onerror = function (error) {
+  console.error(error);
+};
+
+// require(module) example
+new NodeWorker('consolemd.js')
+    .postMessage('Hello **NodeWorker**');
+</script>
