@@ -2,9 +2,9 @@
   "name": "@webreflection/node-worker",
   "version": "0.0.0",
   "description": "Web Worker like API to drive NodeJS files",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "test": "node test/express.js"
   },
   "author": "Andrea Giammarchi",
   "license": "ISC",

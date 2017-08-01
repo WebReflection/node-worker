@@ -1,14 +1,23 @@
 # node-worker
+
+[![License: ISC](https://img.shields.io/badge/License-ISC-yellow.svg)](https://opensource.org/licenses/ISC) [![donate](https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&style=flat)](https://github.com/WebReflection/donate)
+
 Web Worker like API to drive NodeJS files
+
+`npm install @webreflection/node-worker`
 
 ### Concept
 
-Instead of having an [Electron](https://electron.atom.io/) like environment,
-this module make it possible to use NodeJS through the browser,
-using a [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) like mechanism.
+The aim of this project is to provide an alternative to [Electron](https://electron.atom.io/) environment.
+This might be particularly useful in those platforms with constrains such Raspberry Pi Zero or 1.
+
+The module is based on the standard [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) API.
+
+You can `postMessage(data)` and receive `onmessage = (data) => {}` on both client and server.
 
 All workers files must be inside a `workers` directory within the application folder.
 
+Every worker is a [sandboxed VM](https://nodejs.org/api/vm.html) and it runs on the backend: nothing is shared directly with the browser.
 
 ### Basic Example
 
@@ -66,3 +75,5 @@ nw.onerror = function (error) {
 };
 </script>
 ```
+
+You can clone and run `npm test` after an `npm install`.
