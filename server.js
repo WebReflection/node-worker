@@ -117,6 +117,9 @@ module.exports = function (app) {
         });
       }
     });
+    socket.on('disconnect', function () {
+      sandbox = null;
+    });
   });
   return app;
 };

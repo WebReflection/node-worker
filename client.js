@@ -1,9 +1,5 @@
 var NodeWorker = (function (SECRET, io, sockets) {'use strict';
 
-  addEventListener('before', function () {
-    while (instances.length) instances[0].terminate();
-  });
-
   var instances = [];
   var sPO = Object.setPrototypeOf ||
             function (o, p) {
@@ -75,6 +71,14 @@ var NodeWorker = (function (SECRET, io, sockets) {'use strict';
         value: function onmessage() {}
       }
     }
+  );
+
+  addEventListener(
+    'beforeunload',
+    function () {
+      while (instances.length) instances[0].terminate();
+    },
+    false
   );
 
   return NodeWorker;
