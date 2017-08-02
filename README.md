@@ -76,4 +76,14 @@ nw.onerror = function (error) {
 </script>
 ```
 
+**workers/echo.js**
+```js
+// simple echo
+// when dome data arrives
+// same data goes back
+onmessage = function (e) {
+  postMessage(e.data);
+};
+```
+
 You can clone and run `npm test` after an `npm install`.
