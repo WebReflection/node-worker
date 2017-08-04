@@ -7,7 +7,7 @@ module.exports = function (name) {
     onmessage: function () {},
     postMessage: function (value) {
       if (onmessage) onmessage({data: value});
-      else console.error('no onmessage was defined');
+      else console.error('onmessage not defined');
     }
   };
   global.postMessage = function (value) {
@@ -19,7 +19,7 @@ module.exports = function (name) {
     {
       configurable: true,
       set: function (value) {
-        console.log('TRIGGERED');
+        console.log('onmessage defined');
         onmessage = value;
       }
     }
