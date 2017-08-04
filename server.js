@@ -48,16 +48,6 @@ function message(socket, data) {
   socket.emit(SECRET + ':message', JSON.stringify({data: data}));
 }
 
-function onmessage(sandbox, data) {
-  if ('onmessage' in sandbox) {
-    try {
-      sandbox.onmessage({data: data});
-    } catch(e) {
-      error(socket, {message: e.message});
-    }
-  }
-}
-
 // used to send /node-worker.js client file
 function responder(request, response, next) {
   response.writeHead(200, 'OK', {
@@ -94,7 +84,15 @@ module.exports = function (app) {
     var sandbox;
     var queue = [];
     function message(data) {
-      if (sandbox) onmessage(sandbox, JSON.parse(data));
+      if (sandbox) {
+        if ('onmessage' in sandbox) {
+          try {
+            sandbox.onmessage({data: data});
+          } catch(e) {
+            error(socket, {message: e.message});
+          }
+        }
+      }
       else queue.push(data);
     }
     socket.on(SECRET, message);
