@@ -11,7 +11,7 @@ module.exports = function (name) {
     }
   };
   global.postMessage = function (value) {
-    mock.onmessage(value);
+    mock.onmessage({data: value});
   };
   Object.defineProperty(
     global,
