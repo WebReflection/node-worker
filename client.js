@@ -1,5 +1,7 @@
 var NodeWorker = (function (SECRET, io, sockets) {'use strict';
 
+  // ${CircularJSON}
+
   var instances = [];
   var sPO = Object.setPrototypeOf ||
             function (o, p) {
@@ -8,11 +10,11 @@ var NodeWorker = (function (SECRET, io, sockets) {'use strict';
             };
 
   function error(data) {
-      this.onerror(sPO(JSON.parse(data), Error.prototype));
+      this.onerror(sPO(CircularJSON.parse(data), Error.prototype));
   }
 
   function message(data) {
-      this.onmessage(JSON.parse(data));
+      this.onmessage(CircularJSON.parse(data));
   }
 
   function NodeWorker(worker) {
@@ -50,7 +52,7 @@ var NodeWorker = (function (SECRET, io, sockets) {'use strict';
       postMessage: {
         configurable: true,
         value: function postMessage(message) {
-          sockets.get(this).emit(SECRET, JSON.stringify(message));
+          sockets.get(this).emit(SECRET, CircularJSON.stringify(message));
         }
       },
       terminate: {

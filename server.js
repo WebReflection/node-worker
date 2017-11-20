@@ -7,14 +7,24 @@ var vm = require('vm');
 
 // dependencies
 var socketIO = require('socket.io');
+var CircularJSON = require('circular-json');
 
 // local constants / variables
 // used as communication channel
 var SECRET = crypto.randomBytes(32).toString('hex');
 
+var jsClient = {
+  SECRET: SECRET,
+  CircularJSON: fs.readFileSync(
+    require.resolve('circular-json/build/circular-json.js')
+  )
+};
+
 var jsContent = fs.readFileSync(path.join(__dirname, 'client.js'))
                   .toString()
-                  .replace('${SECRET}', SECRET);
+                  .replace(/\$\{(SECRET|CircularJSON)\}/g, function ($0, $1) {
+                    return jsClient[$1];
+                  });
 
 var workers = path.resolve(path.join(process.cwd(), 'workers'));
 
@@ -40,12 +50,12 @@ function createSandbox(filename, socket) {
 
 // notify the socket there was an error
 function error(socket, error) {
-  socket.emit(SECRET + ':error', JSON.stringify(error));
+  socket.emit(SECRET + ':error', CircularJSON.stringify(error));
 }
 
 // send serialized data to the client
 function message(socket, data) {
-  socket.emit(SECRET + ':message', JSON.stringify({data: data}));
+  socket.emit(SECRET + ':message', CircularJSON.stringify({data: data}));
 }
 
 // used to send /node-worker.js client file
@@ -87,7 +97,7 @@ module.exports = function (app) {
       if (sandbox) {
         if ('onmessage' in sandbox) {
           try {
-            sandbox.onmessage({data: data});
+            sandbox.onmessage({data: CircularJSON.parse(data)});
           } catch(e) {
             error(socket, {message: e.message});
           }
