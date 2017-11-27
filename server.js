@@ -41,6 +41,7 @@ function createSandbox(filename, socket) {
     clearInterval: clearInterval,
     clearTimeout: clearTimeout,
     setImmediate: setImmediate,
+    setInterval: setInterval,
     setTimeout: setTimeout,
     module: module,
     require: require
