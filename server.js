@@ -68,6 +68,33 @@ function responder(request, response, next) {
   if (next) next();
 }
 
+uid.i = 0;
+uid.map = Object.create(null);
+uid.delete = function (sandbox) {
+  Object.keys(uid.map).some(function (key) {
+    var found = uid.map[key] === sandbox;
+    if (found) delete uid.map[key];
+    return found;
+  });
+};
+function uid(socket) {
+  var id = 'uid-'.concat(++uid.i, '-', crypto.randomBytes(8).toString('hex'));
+  uid.map[id] = socket;
+  return id;
+}
+
+process.on('uncaughtException', function (err) {
+  if (/\b(uid-\d+-[a-f0-9]{16})\b/.test(err.stack)) {
+    var socket = uid.map[RegExp.$1];
+    if (socket) {
+      error(socket, {
+        message: err.message,
+        stack: err.stack
+      });
+    }
+  }
+});
+
 module.exports = function (app) {
   var io;
   var native = app instanceof http.Server;
@@ -99,8 +126,8 @@ module.exports = function (app) {
         if ('onmessage' in sandbox) {
           try {
             sandbox.onmessage({data: CircularJSON.parse(data)});
-          } catch(e) {
-            error(socket, {message: e.message});
+          } catch(err) {
+            error(socket, {message: err.message, stack: err.stack});
           }
         }
       }
@@ -110,15 +137,24 @@ module.exports = function (app) {
     socket.on(SECRET + ':setup', function (worker) {
       var filename = path.resolve(path.join(workers, worker));
       if (filename.indexOf(workers)) {
-        error(socket, {message: 'Unauthorized worker: ' + worker});
+        error(socket, {
+          message: 'Unauthorized worker: ' + worker,
+          stack: ''
+        });
       } else {
         fs.readFile(filename, function (err, content) {
           if (err) {
-            error(socket, {message: 'Worker not found: ' + worker});
+            error(socket, {
+              message: 'Worker not found: ' + worker,
+              stack: err.stack
+            });
           } else {
             sandbox = createSandbox(filename, socket);
             vm.createContext(sandbox);
-            vm.runInContext(content, sandbox);
+            vm.runInContext(content, sandbox, {
+              filename: uid(socket),
+              displayErrors: true
+            });
             while (queue.length) {
               setTimeout(message, queue.length * 100, queue.pop());
             }
@@ -127,6 +163,7 @@ module.exports = function (app) {
       }
     });
     socket.on('disconnect', function () {
+      uid.delete(socket);
       sandbox = null;
     });
   });
