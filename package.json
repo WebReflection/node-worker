@@ -1,6 +1,6 @@
 {
   "name": "@webreflection/node-worker",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Web Worker like API to drive NodeJS files",
   "main": "server.js",
   "scripts": {
