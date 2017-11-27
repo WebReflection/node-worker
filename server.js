@@ -77,19 +77,20 @@ uid.delete = function (sandbox) {
     return found;
   });
 };
-function uid(socket) {
-  var id = 'uid-'.concat(++uid.i, '-', crypto.randomBytes(8).toString('hex'));
+function uid(filename, socket) {
+  var id = filename + ':uid-'.concat(++uid.i, '-', crypto.randomBytes(8).toString('hex'));
   uid.map[id] = socket;
   return id;
 }
 
 process.on('uncaughtException', function (err) {
-  if (/\b(uid-\d+-[a-f0-9]{16})\b/.test(err.stack)) {
+  if (/\(([\S]+?(:uid-\d+-[a-f0-9]{16}))/.test(err.stack)) {
     var socket = uid.map[RegExp.$1];
+    var secret = RegExp.$2;
     if (socket) {
       error(socket, {
         message: err.message,
-        stack: err.stack
+        stack: ''.replace.call(err.stack, secret, '')
       });
     }
   }
@@ -152,7 +153,7 @@ module.exports = function (app) {
             sandbox = createSandbox(filename, socket);
             vm.createContext(sandbox);
             vm.runInContext(content, sandbox, {
-              filename: uid(socket),
+              filename: uid(worker, socket),
               displayErrors: true
             });
             while (queue.length) {
