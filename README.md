@@ -1,4 +1,4 @@
-# node-worker
+# node-worker: DEPRECATED thanks to [workway](https://github.com/WebReflection/workway#workway--) 🎉
 
 [![License: ISC](https://img.shields.io/badge/License-ISC-yellow.svg)](https://opensource.org/licenses/ISC) [![donate](https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&style=flat)](https://github.com/WebReflection/donate)
 
