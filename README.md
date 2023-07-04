@@ -1,4 +1,4 @@
-# node-worker: DEPRECATED thanks to [workway](https://github.com/WebReflection/workway#workway--) 🎉
+# node-worker: DEPRECATED thanks to [coincident]([https://github.com/WebReflection/workway#workway--](https://github.com/WebReflection/coincident#coincidentserver)) 🎉
 
 [![License: ISC](https://img.shields.io/badge/License-ISC-yellow.svg)](https://opensource.org/licenses/ISC) [![donate](https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&style=flat)](https://github.com/WebReflection/donate)
 
